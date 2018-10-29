@@ -28,6 +28,7 @@ type AptAction struct {
 	debos.BaseAction `yaml:",inline"`
 	Recommends       bool
 	Packages         []string
+	Options          []string
 }
 
 func (apt *AptAction) Run(context *debos.DebosContext) error {
@@ -39,6 +40,7 @@ func (apt *AptAction) Run(context *debos.DebosContext) error {
 	}
 
 	aptOptions = append(aptOptions, "install")
+	aptOptions = append(aptOptions, apt.Options...)
 	aptOptions = append(aptOptions, apt.Packages...)
 
 	c := debos.NewChrootCommandForContext(*context)
